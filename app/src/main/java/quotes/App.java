@@ -18,36 +18,42 @@ import java.util.Random;
 public class App {
          Random random = new Random();
 
-    public String getGreeting() {
-        return "Hello World!";
+    public App(Random random) {
     }
 
-    public String app(String manualPath) throws IOException {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args) throws IOException {
 
         // Read the quotes from the JSON file
-        manualPath = manualPath != null ? manualPath : "./app/src/main/resources/recentquotes.json";
-        Path path = Paths.get(manualPath);
+        Path path = Paths.get("./app/src/main/resources/recentquotes.json");
         String json = Files.readString(path);
         Gson gson = new GsonBuilder().create();
         Quote[] quotes = gson.fromJson(json, Quote[].class);
 
         // Choose a random quote
+        Random random = new Random();
         Quote randomQuote = quotes[random.nextInt(quotes.length)];
 
         // Output the author and text of the random quote
         System.out.println("Author: " + randomQuote.getAuthor());
         System.out.println("Text: " + randomQuote.getText());
-        return randomQuote.getAuthor();
+
 
     }
-//    public static Quote getQuote(Quote[] quotes) {
-//
-//        // Choose a random quote from the array
-//        int maxQuote = 10;
-//        int index = random.nextInt(maxQuote);
-//        return quotes[index];
-//    }
+
+    public Quote getRandomQuote() throws IOException {
+        // Read the quotes from the JSON file
+        Path path = Paths.get("/Users/dashalewis/projects/courses/code-401-java/quotes2/quotes2/app/src/main/resources/recentquotes.json");
+        String json = Files.readString(path);
+        Gson gson = new GsonBuilder().create();
+        Quote[] quotes = gson.fromJson(json, Quote[].class);
+
+        // Choose a random quote
+        int index = random.nextInt(quotes.length);
+        Quote randomQuote = quotes[index];
+
+        return randomQuote;
+
+    }
 
 }
 

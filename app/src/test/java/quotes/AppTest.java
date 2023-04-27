@@ -12,23 +12,15 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test
-    void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
 
     @Test
-    void testRandomQuote() {
-        String currentDir = System.getProperty("user.dir"); //current directory
-        currentDir += "/test/resources/recentquotes.json";
-
-        App randomQuote = new App();
-        try {
-
-        assertEquals(randomQuote.app(currentDir), "");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void testGetRandomQuote() throws IOException {
+        Random random = new Random(0);
+        App app = new App(random);
+        Quote quote = app.getRandomQuote();
+        assertNotNull(quote);
+        assertTrue(quote.getAuthor().length() > 0);
+        assertTrue(quote.getText().length() > 0);
     }
+
 }
