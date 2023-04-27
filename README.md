@@ -10,7 +10,7 @@ Stephen L.
 
 Dasha B.
 
-Collobrated with: 
+Collaborated with: 
 
 Rey O. (Instructor)
 

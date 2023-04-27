@@ -6,6 +6,8 @@ package quotes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -21,22 +23,51 @@ public class App {
     public App(Random random) {
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
+        try{
+            URL quoteURL = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+            HttpURLConnection quoteConnection = (HttpURLConnection) quoteURL.openConnection();
 
-        // Read the quotes from the JSON file
-        Path path = Paths.get("./app/src/main/resources/recentquotes.json");
-        String json = Files.readString(path);
-        Gson gson = new GsonBuilder().create();
-        Quote[] quotes = gson.fromJson(json, Quote[].class);
+            try{
+                quoteConnection.setRequestMethod("GET");
+                int quoteStatus = quoteConnection.getResponseCode();
+                System.out.println(quoteStatus);
 
-        // Choose a random quote
-        Random random = new Random();
-        Quote randomQuote = quotes[random.nextInt(quotes.length)];
+                if(quoteStatus == 200){
+                    InputStreamReader quoteStreamReader = new InputStreamReader(quoteConnection.getInputStream());
 
-        // Output the author and text of the random quote
-        System.out.println("Author: " + randomQuote.getAuthor());
-        System.out.println("Text: " + randomQuote.getText());
+                    try(BufferedReader quoteBuffReader = new BufferedReader(quoteStreamReader)){
+                        String readQuote = quoteBuffReader.readLine();
+                        System.out.println(readQuote);
+                    }
+                } else {
+                    System.out.println("LOOK UP URL STATUS:" + quoteStatus);
+                }
 
+            } catch (IOException e){
+                System.out.println("BAD URL");
+                e.printStackTrace();
+            } finally {
+                quoteConnection.disconnect();
+            }
+        } catch(IOException e) {
+            // Read the quotes from the JSON file
+            Path path = Paths.get("./app/src/main/resources/recentquotes.json");
+            String json = Files.readString(path);
+            Gson gson = new GsonBuilder().create();
+            Quote[] quotes = gson.fromJson(json, Quote[].class);
+
+            // Choose a random quote
+            Random random = new Random();
+            Quote randomQuote = quotes[random.nextInt(quotes.length)];
+
+            // Output the author and text of the random quote
+            System.out.println("Author: " + randomQuote.getAuthor());
+            System.out.println("Text: " + randomQuote.getText());
+            System.out.println("Used Catch Block and Pulled from JSON File");
+            e.printStackTrace();
+        }
 
     }
 
