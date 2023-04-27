@@ -24,3 +24,4 @@ In order to use GSON, please input the following code block into the ./app/build
           implementation 'com.google.code.gson:gson:2.10.1'
         }
         
+Run the app per usual to see results
