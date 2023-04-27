@@ -212,3 +212,6 @@ Temporary Items
 
 # Ignore Gradle build output directory
 build
+
+# Ignore .idea folder
+.idea

@@ -7,6 +7,9 @@ public class Quote {
     protected String likes;
     protected String text;
 
+    public Quote(String author1, String quote1) {
+    }
+
     //methods
 
     //getters
