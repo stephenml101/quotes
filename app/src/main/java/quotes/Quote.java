@@ -8,6 +8,8 @@ public class Quote {
     protected String text;
 
     public Quote(String author1, String quote1) {
+        this.author = author1;
+        this.text = quote1;
     }
 
     //methods
